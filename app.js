@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const path = require('path');
+const { randomUUID } = require('crypto');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -9,9 +10,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // MySQL connection settings
 const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'password',
-    database: 'arwaprojectdb'
+    user: 'arwa',
+    password: 'arwa',
+    database: 'default'
 });
 
 connection.connect((error) => {
@@ -46,7 +47,7 @@ app.get('/register-student', (req, res) => {
 app.post('/authenticate', (req, res) => {
     const { username, password } = req.body;
 
-    connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (error, results, fields) => {
+    connection.query('SELECT * FROM student_main WHERE UUID  = ? AND DOB = ?', [randomUUID, DOB], (error, results, fields) => {
         if (error) throw error;
 
         if (results.length > 0) {
@@ -59,9 +60,9 @@ app.post('/authenticate', (req, res) => {
 
 // Handle Register
 app.post('/register-form', (req, res) => {
-    const { username, password, first_name } = req.body;
+    const { randomUUID,DOB , FIRSTNAME } = req.body;
 
-    connection.query('INSERT INTO users SET username = ?, password = ?, firstname = ?', [username, password, first_name], (error, results, fields) => {
+    connection.query('INSERT INTO student_main SET UUID = ?, DOB = ?, FirstName = ?', [randomUUID, DOB, FIRSTNAME], (error, results, fields) => {
         if (error) throw error;
 
         if (results.affectedRows > 0) {
@@ -73,7 +74,7 @@ app.post('/register-form', (req, res) => {
 });
 
 // Start server
-const PORT = 3000;
+const PORT = 3306;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
