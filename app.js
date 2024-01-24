@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'arwa',
     password: 'arwa',
-    database: 'default'
+    database: 'project'
 });
 
 connection.connect((error) => {
@@ -47,7 +47,7 @@ app.get('/register-student', (req, res) => {
 app.post('/authenticate', (req, res) => {
     const { username, password } = req.body;
 
-    connection.query('SELECT * FROM student_main WHERE UUID  = ? AND DOB = ?', [randomUUID, DOB], (error, results, fields) => {
+    connection.query('SELECT * FROM student WHERE register_number  = ? AND password = ?', [varchar, Date], (error, results, fields) => {
         if (error) throw error;
 
         if (results.length > 0) {
@@ -60,9 +60,9 @@ app.post('/authenticate', (req, res) => {
 
 // Handle Register
 app.post('/register-form', (req, res) => {
-    const { randomUUID,DOB , FIRSTNAME } = req.body;
+    const { register_number,password,first_name } = req.body;
 
-    connection.query('INSERT INTO student_main SET UUID = ?, DOB = ?, FirstName = ?', [randomUUID, DOB, FIRSTNAME], (error, results, fields) => {
+    connection.query('INSERT INTO student SET register_number = ?, password = ?, first_name = ?', [varchar,Date,varchar], (error, results, fields) => {
         if (error) throw error;
 
         if (results.affectedRows > 0) {
