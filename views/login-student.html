@@ -1,15 +1,34 @@
--- Active: 1705334032428@@127.0.0.1@3306@project
+<!-- Active: 1705334032428@@127.0.0.1@3306@project -->
+<!-- login.html -->
+<!-- login.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login Student</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- <link rel="stylesheet" href="styles/common.css"-->
+    <link rel="stylesheet" href="styles/design.css">
+    <title>Student Login</title>
 </head>
 <body>
-    <h1>Login</h1>
-    <form action="/authenticate" method="post">
-        Username: <input type="text" name="register_number"/><br/>
-        Password: <input type="password" name="Date"/><br/>
+    <div class="container">
+        <div class="form-container">
+    <form id="loginForm" action="/authenticate" method="post" class="register-form">
+        
+       <b> <label for="loginRegisterNumber">Register Number:</label></b>
+    <br>
+        <!-- Add the "name" attribute -->
+        <input type="text" id="registerNumber" name="registerNumber" required placeholder="e.g. 21BCA07" >
+        <br>
+      <b>  <label for="loginDob"> Password:</label></b>
+      <br>
+        <!-- Add the "name" attribute -->
+        <input type="text" id="dob" name="dob" required placeholder="yyyy-mm-dd">
+<br>
         <button type="submit">Login</button>
     </form>
+
+    <script src="app.js"></script>
 </body>
 </html>
+

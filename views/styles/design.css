@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-image: url('Womens-Christian-College.jpg'); /* Add your background image URL here */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.container {
+    background-color: rgba(34, 143, 103, 0.5); /* Adjust the alpha value for background darkness */
+    border-radius: 15px;
+    overflow: hidden;
+    width: 400px;
+}
+
+
+.form-container {
+    background-color: rgba(21, 177, 66, 0.5); /* Adjust the alpha value for background transparency */
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+}
+.register-form,
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+label {
+    color: #5b1616; /* Adjust label text color */
+}
+
+input {
+    padding: 8px;
+    width: 80%; /* Make the text boxes full width */
+    border: 1px solid #6a6a09; /* Adjust the border color */
+    border-radius: 20px; /* Add border-radius for a curved appearance */
+}
+
+button {
+    padding: 8px; /* Adjust the padding to make the button smaller */
+    background-color: #007BFF; /* Adjust button background color */
+    color: #fff; /* Adjust button text color */
+    border: none;
+    border-radius: 10px; /* Add border-radius for a rounded appearance */
+    cursor: pointer;
+    width: 65px; /* Adjust the width of the button */
+}
+
+button:hover {
+    background-color: #0056b3; /* Adjust button background color on hover */
+}
+/* Add your form styling here */
+
+/* dashboard design
+/* styles/design.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+
+#dashboard-options {
+    margin-top: 20px;
+}
+
+#dashboard-options ul {
+    list-style-type: none;
+}
+
+#dashboard-options ul li {
+    margin-bottom: 10px;
+}
+
+#dashboard-options a {
+    margin-right: 10px;
+}
+#academic-form-container {
+    margin-top: 30px;
+    padding: 50px;
+    background-color: #11cb4c;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(158, 7, 7, 0.1);
+}

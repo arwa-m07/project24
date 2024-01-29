@@ -1,0 +1,46 @@
+<!-- academic_achievement.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/design.css">
+    <title>Academic Achievement</title>
+</head>
+<body>
+    <div id="academic-form-container">
+    <form action="/submit-academic-achievement" method="POST">
+      
+        <label for="registerNumber">Register Number:</label>
+        <br>
+        <br>
+        <input type="text" id="registerNumber" name="registerNumber" required>
+        <br>
+        <br>
+        <label for="nameOfAchievement">Name of Achievement:</label><br>
+        <br>
+        <input type="text" id="nameOfAchievement" name="nameOfAchievement" required><br>
+        <br>
+        <label for="achievementDate">Achievement Date:</label><br>
+        <br>
+        <input type="date" id="achievementDate" name="achievementDate" required><br>
+        <br>
+        <label for="description">Description:</label><br>
+        <br>
+        <textarea id="description" name="description"></textarea><br>
+        <br>
+        <label for="photoURL">Photo URL:</label><br>
+        <br>
+        <input type="text" id="photoURL" name="photoURL"><br>
+        <br>
+        <label for="certificateURL">Certificate URL:</label><br>
+        <br>
+        <input type="text" id="certificateURL" name="certificateURL" required><br>
+        <br>
+
+        <button type="submit">Submit</button>
+        
+    </form>
+    </div>
+</body>
+</html>

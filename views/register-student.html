@@ -1,15 +1,37 @@
-<!DOCTYPE html>
-<html>
+<!-- Update the registration form to include profile photo -->
+<html lang="en">
 <head>
-    <title>Login Register</title>
-</head>
-<body>
-    <h1>Register Student</h1>
-    <form action="/register-form" method="post">
-        Register Number <input type="text" name="register_number"/><br/>
-        Password: <input type="password" name="password"/><br/>
-        First Name: <input type="text" name="first_name"/><br/>
-        <button type="submit">Register</button>
-    </form>
-</body>
-</html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- <link rel="stylesheet" href="styles/common.css"-->
+    <link rel="stylesheet" href="styles/design.css">
+
+    <div class="container">
+        <div class="form-container">
+
+<form action="/register-form" method="post" enctype="application/x-www-form-urlencoded" class="login-form">
+  <br><br> <br><b> <label for="firstName">First Name:</label></b>
+    <input type="text" id="firstName" name="firstName" required placeholder="e.g. Ankita"><br>
+  <br>
+   <b> <label for="lastName">Last Name:</label></b>
+    <input type="text" id="lastName" name="lastName" required placeholder="e.g.; Roy"><br>
+  <br>
+   <b> <label for="registerNumber">Register Number:</label></b>
+    <input type="text" id="registerNumber" name="registerNumber" required placeholder="e.g.; 21CEM02"><br>
+    <br>
+   <b> <label for="dob">Date of Birth:</label></b>
+    <input type="password" id="dob" name="dob" required placeholder="Enter in the format of : yyyy-mm-dd"><br>
+    <br>
+   <b><label for="department">Department:</label></b>
+    <input type="text" id="department" name="department" required placeholder="e.g.; Visual Communication"><br>
+    <br>
+  <b><label for="profilePhoto">Profile Photo:</label></b>
+    <input type="file" id="profilePhoto" name="profilePhoto" accept="image/*" required ><br>
+    <br>
+  <b> <button type="submit">Register</button></b>
+  </form>
+ <script src = "app.js"></script>
+
+
+  
+  
