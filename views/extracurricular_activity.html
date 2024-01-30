@@ -4,34 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/design.css">
     <title>Extracurricular Activity</title>
 </head>
 <body>
+    <div id="extracurricular-form-container" class="form-container">
     <form action="/submit-extracurricular-activity" method="POST">
-      
-
-        <label for="nameOfActivity">Name of Activity:</label>
-        <input type="text" id="nameOfActivity" name="nameOfActivity" required>
-
-        <label for="activityDate">Activity Date:</label>
-        <input type="date" id="activityDate" name="activityDate" required>
-
+        <label for="registerNumber">Register Number:</label>
+        <br>
+        <br>
+        <input type="text" id="registerNumber" name="registerNumber" required>
+        <br>
+        <br>
+        <label for="nameOfEvent">Name of Event:</label>
+        <br>
+        <br>
+        <input type="text" id="nameOfEvent" name="nameOfEvent" required>
+        <br>
+        <br>
+        <label for="eventDate">Date of Event:</label>
+        <br>
+        <br>
+        <input type="date" id="eventDate" name="eventDate" required>
+        <br>
+        <br>
         <label for="location">Location:</label>
+        <br>
+        <br>
         <input type="text" id="location" name="location">
-
+        <br>
+        <br>
         <label for="organisers">Organisers:</label>
+        <br>
+        <br>
         <input type="text" id="organisers" name="organisers">
-
-        <label for="description">Description:</label>
-        <textarea id="description" name="description"></textarea>
-
+        <br>
+        <br>
         <label for="photoURL">Photo URL:</label>
+        <br>
+        <br>
         <input type="text" id="photoURL" name="photoURL">
-
+        <br>
+        <br>
         <label for="certificateURL">Certificate URL:</label>
+        <br>
+        <br>
         <input type="text" id="certificateURL" name="certificateURL" required>
-
+        <br>
+        <br>
         <button type="submit">Submit</button>
+        
     </form>
+    </div>
 </body>
 </html>

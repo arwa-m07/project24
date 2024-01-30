@@ -21,7 +21,7 @@ body {
 
 
 .form-container {
-    background-color: rgba(21, 177, 66, 0.5); /* Adjust the alpha value for background transparency */
+    background-color: rgba(188, 203, 192, 0.938); /* Adjust the alpha value for background transparency */
     padding: 20px;
     border-radius: 10px;
     width: 400px;
@@ -36,8 +36,9 @@ label {
 }
 
 input {
+    font-weight: bold;
     padding: 8px;
-    width: 80%; /* Make the text boxes full width */
+    width: 75%; /* Make the text boxes full width */
     border: 1px solid #6a6a09; /* Adjust the border color */
     border-radius: 20px; /* Add border-radius for a curved appearance */
 }
@@ -91,10 +92,14 @@ body {
 #dashboard-options a {
     margin-right: 10px;
 }
+
+#extracurricular-form-container,
+#sports-form-container,
+#courses-form-container ,
 #academic-form-container {
     margin-top: 30px;
     padding: 50px;
-    background-color: #11cb4c;
+    background-color: #1bb348;
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(158, 7, 7, 0.1);
 }

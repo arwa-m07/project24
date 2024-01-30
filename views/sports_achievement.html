@@ -4,39 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/design.css">
     <title>Sports Achievement</title>
 </head>
 <body>
+    <div id="sports-form-container" class="form-container">
     <form action="/submit-sports-achievement" method="POST">
-   
+        <label for="registerNumber">Register Number:</label>
+        <br>
+        <br>
+        <input type="text" id="registerNumber" name="registerNumber" required>
+        <br>
+        <br>
         <label for="nameOfSport">Name of Sport:</label>
+        <br>
         <input type="text" id="nameOfSport" name="nameOfSport" required>
-
+        <br>
+        <br>
         <label for="level">Level:</label>
+        <br>
         <input type="text" id="level" name="level" required>
-
+        <br>
+        <br>
         <label for="achievementDate">Achievement Date:</label>
+        <br>
         <input type="date" id="achievementDate" name="achievementDate" required>
-
+        <br>
+        <br>
         <label for="prizeReceived">Prize Received:</label>
+        <br>
         <input type="text" id="prizeReceived" name="prizeReceived" required>
-
+        <br>
+        <br>
         <label for="location">Location:</label>
+        <br>
         <input type="text" id="location" name="location">
-
+        <br>
+        <br>
         <label for="organisers">Organisers:</label>
+        <br>
         <input type="text" id="organisers" name="organisers">
-
+        <br>
+        <br>
         <label for="description">Description:</label>
+        <br>
         <textarea id="description" name="description"></textarea>
-
+        <br>
+        <br>
         <label for="photoURL">Photo URL:</label>
+        <br>
         <input type="text" id="photoURL" name="photoURL">
-
+        <br>
+        <br>
         <label for="certificateURL">Certificate URL:</label>
+        <br>
         <input type="text" id="certificateURL" name="certificateURL" required>
-
+        <br>
+        <br>
         <button type="submit">Submit</button>
     </form>
+    </div>
 </body>
 </html>
