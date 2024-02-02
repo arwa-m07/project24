@@ -6,6 +6,9 @@ const { error } = require('console');
 // const { randomUUID } = require('crypto');
 
 const app = express();
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 var REGISTERNUMBER;
 // MySQL connection settings
@@ -205,49 +208,21 @@ app.post('/submit-course', (req, res) => {
     });
 });
 
-// ... (existing code)
 
-// Handle rendering the student profile
-// Update the render call for student-profile
-
-
-app.get('/student-profile', (req, res) => {
-    const sqlAcademic = 'SELECT * FROM academicachievements WHERE RegisterNumber = ?';
-    const sqlExtracurricular = 'SELECT * FROM extracurricularactivities WHERE RegisterNumber = ?';
-    const sqlSports = 'SELECT * FROM sportsachievements WHERE RegisterNumber = ?';
-    const sqlCourses = 'SELECT * FROM courses WHERE RegisterNumber = ?';
-
-    connection.query(sqlAcademic, [REGISTERNUMBER], (errorAcademic, academicResults, fieldsAcademic) => {
-        if (errorAcademic) {
-            res.send('Error');
-        } else {
-            connection.query(sqlExtracurricular, [REGISTERNUMBER], (errorExtracurricular, extracurricularResults, fieldsExtracurricular) => {
-                if (errorExtracurricular) {
-                    res.send('Error');
-                } else {
-                    connection.query(sqlSports, [REGISTERNUMBER], (errorSports, sportsResults, fieldsSports) => {
-                        if (errorSports) {
-                            res.send('Error');
-                        } else {
-                            connection.query(sqlCourses, [REGISTERNUMBER], (errorCourses, coursesResults, fieldsCourses) => {
-                                if (errorCourses) {
-                                    res.send('Error');
-                                } else {
-                                    res.sendFile(path.join(__dirname, 'views', 'student-profile.html') ,{
-                                      
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
+// Route to serve the student profile EJS page
+app.get("/student-profile", (req, res) => {
+    // Fetch data from the MySQL database
+    const query = "SELECT * FROM academicachievements";  // 
+    connection.query(query, (err, results) => {
+      if (err) {
+        console.error("Error fetching data from MySQL database: ", err);
+        res.status(500).send("Internal server error");
+      } else {
+        // Render the EJS file with the fetched data
+        res.render("student_profile", { data: results });
+      }
     });
-});
-
-// ... (existing code)
-
+  });
 
 
 

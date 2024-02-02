@@ -1,0 +1,80 @@
+<!-- student_profile.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    .delete {
+      background-color: #f44336;
+    }
+    .fill {
+      background-color: #008CBA;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Profile</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Created At</th>
+        <th>Updated At</th>
+        <th>Title of the Form</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- Populate the table with data fetched from the MySQL database -->
+      <% console.log("Data:", data); %>
+      <% data.forEach(function(entry) { %>
+        <tr>
+          <td><%- entry.AchievementDate %></td>
+          <td><%- entry.NameOfAchievement %></td>
+          <td><%- entry.Description %></td>
+          <td>
+            <!-- Add two action buttons to each row of the table -->
+            <button class="button delete" onclick="deleteRecord(<%- entry.AchievementID %>)">Delete</button>
+      <button class="button fill" onclick="fillNewForm()">Fill New Form</button>
+          </td>
+        </tr>
+      <% }); %>
+      
+      
+    </tbody>
+  </table>
+  <script>
+    
+  // Implement the fill new form button to redirect the user to the dashboard page when clicked
+  function fillNewForm() {
+    window.location.href = "/dashboard";
+  }
+  </script>
+</body>
+</html>
