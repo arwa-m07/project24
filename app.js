@@ -10,6 +10,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 var REGISTERNUMBER;
 // MySQL connection settings
 const connection = mysql.createConnection({
@@ -211,6 +212,7 @@ app.post('/submit-course', (req, res) => {
 
 // Route to serve the student profile EJS page
 app.get("/student-profile", (req, res) => {
+  
     // Fetch data from the MySQL database
     const query = "SELECT * FROM academicachievements";  // 
     connection.query(query, (err, results) => {
@@ -224,6 +226,41 @@ app.get("/student-profile", (req, res) => {
     });
   });
 
+ 
+
+// Express route to handle deleting a record
+ 
+    app.post("/delete_record", (req, res) => {
+    console.log("Received DELETE request at /delete_record");
+    console.log("Received entire request body:", req.body);
+    
+    // Extract AchievementID from the request body
+    const achievementId = req.body.AchievementID;
+    console.log("Received AchievementID from request:", achievementId);
+    
+    // Your SQL query to delete the record based on the achievementId
+    const query = "DELETE FROM academicachievements WHERE AchievementID = ?";
+    console.log("SQL Query:", query);
+    console.log("Parameters:", [achievementId]);
+    
+    // Execute the SQL query
+    connection.query(query, [achievementId], (err, results) => {
+        if (err) {
+            console.error("Error deleting record from MySQL database: ", err);
+            res.status(500).send("Internal server error");
+        } else {
+            // Check if any rows were affected to determine if the record was deleted
+            if (results.affectedRows > 0) {
+                res.status(200).send("Record deleted successfully");
+            } else {
+                res.status(404).send("Record not found"); // or handle as appropriate
+            }
+        }
+    });
+});
+    
+
+  
 
 
 

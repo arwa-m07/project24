@@ -1,3 +1,4 @@
+-- Active: 1705334032428@@127.0.0.1@3306@project
 <!-- student_profile.ejs -->
 <!DOCTYPE html>
 <html lang="en">
@@ -44,9 +45,9 @@
   <table>
     <thead>
       <tr>
-        <th>Created At</th>
-        <th>Updated At</th>
-        <th>Title of the Form</th>
+        <th>Created Form ID</th>
+        <th>Name Of Achievement</th>
+        <th>Description</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -55,12 +56,13 @@
       <% console.log("Data:", data); %>
       <% data.forEach(function(entry) { %>
         <tr>
-          <td><%- entry.AchievementDate %></td>
+          <td><%- entry.AchievementID %></td>
           <td><%- entry.NameOfAchievement %></td>
           <td><%- entry.Description %></td>
           <td>
             <!-- Add two action buttons to each row of the table -->
-            <button class="button delete" onclick="deleteRecord(<%- entry.AchievementID %>)">Delete</button>
+            <button class="button delete" onclick="console.log('AchievementID:', '<%- entry.AchievementID %>'); deleteRecord('<%- entry.AchievementID %>')">Delete</button>
+
       <button class="button fill" onclick="fillNewForm()">Fill New Form</button>
           </td>
         </tr>
@@ -69,12 +71,50 @@
       
     </tbody>
   </table>
-  <script>
-    
+ 
+ 
+ 
+ <script>
   // Implement the fill new form button to redirect the user to the dashboard page when clicked
   function fillNewForm() {
     window.location.href = "/dashboard";
   }
-  </script>
+
+
+
+
+  // Implement the delete button to prompt the user and delete the record
+  function deleteRecord(achievementId) {
+  console.log("Deleting record with ID:", achievementId);
+
+  // Display a confirmation dialog
+  if (confirm("Do you want to delete the record?")) {
+    console.log("AchievementID before sending request:", achievementId);
+ 
+    // Send an AJAX request to the server to delete the record
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/delete_record");
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        alert("Record deleted successfully");
+        // Reload the page to update the table
+        location.reload();
+      } else {
+        alert("Failed to delete the record");
+      }
+    };
+
+    // Pass AchievementID with the correct key
+    xhr.send(JSON.stringify({ AchievementID: achievementId }));
+  } else {
+    // Handle the case where the user clicks "Cancel"
+    console.log("Deletion canceled");
+   
+  }
+}
+
+</script>
 </body>
 </html>
