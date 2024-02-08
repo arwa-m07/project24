@@ -1,4 +1,4 @@
--- Active: 1705334032428@@127.0.0.1@3306@project
+
 <!-- student_profile.ejs -->
 <!DOCTYPE html>
 <html lang="en">
@@ -7,9 +7,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Profile</title>
   <style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: grey;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+  
+   
+}
     table {
       border-collapse: collapse;
-      width: 100%;
+      width: 80%;
+      margin: auto;
+      margin-bottom: 10px;
+      padding: 1px;
     }
     th, td {
       border: 1px solid black;
@@ -37,11 +51,24 @@
     }
     .fill {
       background-color: #008CBA;
+        position: absolute;
+        top: 10px; 
+        right: 10px; 
+    }
+    .category-heading {
+      font-size: 30px;
+      color: red;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>Student Profile</h1>
+  <center><h1>Student Profile</h1></center>
+
+  <!-- Academic Achievements -->
+  <h2 class="category-heading">Academic Achievements</h2>
   <table>
     <thead>
       <tr>
@@ -51,26 +78,101 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody id="tableBody">
+    <tbody id="academicTableBody">
       <!-- Populate the table with data fetched from the MySQL database -->
-      <% console.log("Data:", data); %>
-      <% data.forEach(function(entry) { %>
+      <% academicData.forEach(function(entry) { %>
         <tr>
           <td><%- entry.AchievementID %></td>
           <td><%- entry.NameOfAchievement %></td>
           <td><%- entry.Description %></td>
           <td>
-            <!-- Add two action buttons to each row of the table -->
-            <button class="button delete" onclick="console.log('AchievementID:', '<%- entry.AchievementID %>'); deleteRecord('<%- entry.AchievementID %>')">Delete</button>
-
-      <button class="button fill" onclick="fillNewForm()">Fill New Form</button>
+            <button class="button delete" onclick="deleteRecord('academic', '<%- entry.AchievementID %>')">Delete</button>
           </td>
         </tr>
       <% }); %>
-      
-      
     </tbody>
   </table>
+
+  <!-- Extracurricular Activities -->
+  <h2 class="category-heading">Extracurricular Activities</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Activity ID</th>
+        <th>Event Name</th>
+        <th>Organisers</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="extracurricularTableBody">
+      <!-- Populate the table with data fetched from the MySQL database -->
+      <% extracurricularData.forEach(function(entry) { %>
+        <tr>
+          <td><%- entry.ActivityID %></td>
+          <td><%- entry.EventName %></td>
+          <td><%- entry.Organisers %></td>
+          <td>
+            <button class="button delete" onclick="deleteRecord('extracurricular', '<%- entry.ActivityID %>')">Delete</button>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <!-- Sports Achievements -->
+  <h2 class="category-heading">Sports Achievements</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Sports Achievement ID</th>
+        <th>Name Of Sport</th>
+        <th>Level</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="sportsTableBody">
+      <!-- Populate the table with data fetched from the MySQL database -->
+      <% sportsData.forEach(function(entry) { %>
+        <tr>
+          <td><%- entry.SportsAchievementID %></td>
+          <td><%- entry.NameOfSport %></td>
+          <td><%- entry.Level %></td>
+          <td>
+            <button class="button delete" onclick="deleteRecord('sports', '<%- entry.SportsAchievementID %>')">Delete</button>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <!-- Courses -->
+  <h2 class="category-heading">Courses</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Course ID</th>
+        <th>Course Name</th>
+        <th>Course Type</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="coursesTableBody">
+      <!-- Populate the table with data fetched from the MySQL database -->
+      <% coursesData.forEach(function(entry) { %>
+        <tr>
+          <td><%- entry.CourseID %></td>
+          <td><%- entry.CourseName %></td>
+          <td><%- entry.CourseType %></td>
+          <td>
+            <button class="button delete" onclick="deleteRecord('courses', '<%- entry.CourseID %>')">Delete</button>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <!-- Common "Fill New Form" button -->
+  <button class="button fill" onclick="fillNewForm()">Fill New Form</button>
  
  
  
@@ -80,41 +182,56 @@
     window.location.href = "/dashboard";
   }
 
-
-
-
   // Implement the delete button to prompt the user and delete the record
-  function deleteRecord(achievementId) {
-  console.log("Deleting record with ID:", achievementId);
+  function deleteRecord(recordType, recordId) {
+    console.log("Deleting record with ID:", recordId);
 
-  // Display a confirmation dialog
-  if (confirm("Do you want to delete the record?")) {
-    console.log("AchievementID before sending request:", achievementId);
- 
-    // Send an AJAX request to the server to delete the record
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/delete_record");
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    // Display a confirmation dialog
+    if (confirm("Do you want to delete the record?")) {
+      console.log("Record type:", recordType);
+      console.log("Record ID:", recordId);
 
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        alert("Record deleted successfully");
-        // Reload the page to update the table
-        location.reload();
-      } else {
-        alert("Failed to delete the record");
+      // Send an AJAX request to the server to delete the record
+      var xhr = new XMLHttpRequest();
+      var url = `/delete_${recordType}_record`;
+      xhr.open("POST", url);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          alert("Record deleted successfully");
+          // Reload the page to update the table
+          location.reload();
+        } else {
+          alert("Failed to delete the record");
+        }
+      };
+
+      // Pass the record ID with the correct key
+      var data = {};
+      if (recordType === "academic") {
+        data.AchievementID = recordId;
+      } else if (recordType === "extracurricular") {
+        data.ActivityID = recordId;
+      } else if (recordType === "sports") {
+        data.SportsAchievementID = recordId;
+      } else if (recordType === "courses") {
+        data.CourseID = recordId;
       }
-    };
-
-    // Pass AchievementID with the correct key
-    xhr.send(JSON.stringify({ AchievementID: achievementId }));
-  } else {
-    // Handle the case where the user clicks "Cancel"
-    console.log("Deletion canceled");
-   
+       // Log the data being sent
+    console.log("Data to be sent:", data);
+      xhr.send(JSON.stringify(data));
+    } else {
+      // Handle the case where the user clicks "Cancel"
+      console.log("Deletion canceled");
+    }
   }
-}
-
 </script>
+
+
+
+
+
+  
 </body>
 </html>

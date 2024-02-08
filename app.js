@@ -209,55 +209,110 @@ app.post('/submit-course', (req, res) => {
     });
 });
 
-
 // Route to serve the student profile EJS page
 app.get("/student-profile", (req, res) => {
-  
     // Fetch data from the MySQL database
-    const query = "SELECT * FROM academicachievements";  // 
-    connection.query(query, (err, results) => {
-      if (err) {
-        console.error("Error fetching data from MySQL database: ", err);
-        res.status(500).send("Internal server error");
-      } else {
-        // Render the EJS file with the fetched data
-        res.render("student_profile", { data: results });
-      }
+    const query1 = "SELECT * FROM academicachievements WHERE RegisterNumber = ?";
+    const query2 = "SELECT * FROM extracurricularactivities WHERE RegisterNumber = ?";
+    const query3 = "SELECT * FROM sportsachievements WHERE RegisterNumber = ?";
+    const query4 = "SELECT * FROM courses WHERE RegisterNumber = ?";
+
+    // Execute each query separately
+    connection.query(query1, [REGISTERNUMBER], (err1, academicData) => {
+        connection.query(query2, [REGISTERNUMBER], (err2, extracurricularData) => {
+            connection.query(query3, [REGISTERNUMBER], (err3, sportsData) => {
+                connection.query(query4, [REGISTERNUMBER], (err4, coursesData) => {
+                    if (err1 || err2 || err3 || err4) {
+                        console.error("Error fetching data from MySQL database:", err1 || err2 || err3 || err4);
+                        res.status(500).send("Internal server error");
+                    } else {
+                        // Render the EJS file with the fetched data
+                        res.render("student_profile", { 
+                            academicData: academicData, 
+                            extracurricularData: extracurricularData,
+                            sportsData: sportsData,
+                            coursesData: coursesData
+                        });
+                    }
+                });
+            });
+        });
     });
-  });
+});
 
- 
 
-// Express route to handle deleting a record
- 
-    app.post("/delete_record", (req, res) => {
-    console.log("Received DELETE request at /delete_record");
-    console.log("Received entire request body:", req.body);
-    
-    // Extract AchievementID from the request body
+
+// Node.js code for handling deletion of records
+
+// Route to handle deletion of academic achievements
+app.post("/delete_academic_record", (req, res) => {
     const achievementId = req.body.AchievementID;
-    console.log("Received AchievementID from request:", achievementId);
-    
-    // Your SQL query to delete the record based on the achievementId
     const query = "DELETE FROM academicachievements WHERE AchievementID = ?";
-    console.log("SQL Query:", query);
-    console.log("Parameters:", [achievementId]);
-    
-    // Execute the SQL query
-    connection.query(query, [achievementId], (err, results) => {
+    connection.query(query, [achievementId], (err, result) => {
         if (err) {
-            console.error("Error deleting record from MySQL database: ", err);
+            console.error("Error deleting academic record:", err);
             res.status(500).send("Internal server error");
         } else {
-            // Check if any rows were affected to determine if the record was deleted
-            if (results.affectedRows > 0) {
-                res.status(200).send("Record deleted successfully");
-            } else {
-                res.status(404).send("Record not found"); // or handle as appropriate
-            }
+            console.log("Academic record deleted successfully");
+            res.sendStatus(200);
         }
     });
 });
+
+// Route to handle deletion of extracurricular activities
+app.post("/delete_extracurricular_record", (req, res) => {
+    const activityId = req.body.ActivityID;
+    const query = "DELETE FROM extracurricularactivities WHERE ActivityID = ?";
+    connection.query(query, [activityId], (err, result) => {
+        if (err) {
+            console.error("Error deleting extracurricular record:", err);
+            res.status(500).send("Internal server error");
+        } else {
+            console.log("Extracurricular record deleted successfully");
+            res.sendStatus(200);
+        }
+    });
+});
+
+// Route to handle deletion of sports achievements
+app.post("/delete_sports_record", (req, res) => {
+    const sportsAchievementId = req.body.SportsAchievementID;
+    const query = "DELETE FROM sportsachievements WHERE SportsAchievementID = ?";
+    connection.query(query, [sportsAchievementId], (err, result) => {
+        if (err) {
+            console.error("Error deleting sports record:", err);
+            res.status(500).send("Internal server error");
+        } else {
+            console.log("Sports record deleted successfully");
+            res.sendStatus(200);
+        }
+    });
+});
+
+// Route to handle deletion of courses
+app.post("/delete_courses_record", (req, res) => {
+    const courseId = req.body.CourseID;
+    console.log("Received request to delete course record with ID:", courseId);
+    const query = "DELETE FROM courses WHERE CourseID = ?";
+    connection.query(query, [courseId], (err, result) => {
+        if (err) {
+            console.error("Error deleting course record:", err);
+            res.status(500).send("Internal server error");
+        } else {
+            console.log("Course record deleted successfully");
+            res.sendStatus(200);
+        }
+    });
+});
+
+
+
+
+ 
+
+
+
+
     
 
   
