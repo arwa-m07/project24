@@ -39,6 +39,8 @@ connection.connect((err) => {
   // Serve static files from 'views' directory
 app.use(express.static(path.join(__dirname, 'views')));
 
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
+
 
 
 // Home page route
@@ -60,11 +62,10 @@ app.get('/register-student', (req, res) => {
 
 
 
-
 // Multer storage configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'views/images'); // Destination folder for storing uploaded files
+        cb(null, 'public/images'); // Updated destination folder for storing uploaded files
     },
     filename: function (req, file, cb) {
         // Generating a unique filename for the uploaded file
@@ -83,95 +84,14 @@ const upload = multer({
     fileFilter: (req, file, cb) => {
         // Check file type or any other validations
         if (file.mimetype.startsWith('image/')) {
-            cb(null, 'views/images');
+            cb(null, true); // Allow the file to be uploaded
         } else {
             cb(new Error('File type not supported'));
         }
     }
 });
-
 // Handle Register
 app.post('/register-form', upload.single('profilePhoto'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).send('Please upload a profile photo.');
-    }
-
-    // Resize and store the profile photo
-    sharp(req.file.path)
-        .resize(200, 200) // Adjust the dimensions as needed
-        .toFile(path.join(__dirname, 'views', 'images', 'resized', req.file.filename), (err, info) => {
-            if (err) {
-                console.error('Error resizing and storing the profile photo:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-    console.log('Received POST request to /register-form');
-    console.log('Request body:', req.body); // Check if profilePhoto is present in req.body
-    console.log('File received:', req.file); // Check the uploaded file information
-    const {
-        firstName,
-        lastName,
-        registerNumber,
-        dob,
-        department,
-        profilePhoto,
-        residentStatus,
-        fatherFirstName,
-        fatherLastName,
-        fatherPhoneNumber,
-        fatherEmail,
-        motherFirstName,
-        motherLastName,
-        motherPhoneNumber,
-        motherEmail,
-        guardianFirstName,
-        guardianLastName,
-        guardianPhoneNumber,
-        guardianEmail,
-        guardianAddress,
-        guardianCity,
-        guardianPincode,
-        address,
-        city,
-        pincode,
-        bloodGroup,
-        collegeEmail // New field
-    } = req.body;
-
-    // Log the received form data
-    console.log('Received form data:', req.body);
-
-    // Log values of specific variables just before the conditional check
-    console.log('firstName:', firstName);
-    console.log('lastName:', lastName);
-    console.log('registerNumber:', registerNumber);
-    console.log('dob:', dob);
-    console.log('department:', department);
-    console.log('profilePhoto:', profilePhoto);
-    console.log('bloodGroup:', bloodGroup);
-    console.log('collegeEmail:', collegeEmail);
-
-    // Check if required values are present
-    if (!firstName || !lastName || !registerNumber || !dob || !department || !bloodGroup || !collegeEmail) {
-        console.log("profile photo", profilePhoto);
-        return res.status(400).send('Please provide all required fields.');
-    }
-
-// Check residency status and required fields accordingly
-console.log('Residency Status:', residentStatus); // Add this line
-if (residentStatus === 'Resident') {
-    if (!fatherFirstName || !fatherLastName || !fatherPhoneNumber || !fatherEmail || !motherFirstName || !motherLastName || !motherPhoneNumber || !motherEmail || !address || !city || !pincode) {
-        console.log('Required fields for Resident are missing.'); // Add this line
-        return res.status(400).send('Please provide all required fields for Resident.');
-    }
-} else if (residentStatus === 'Non-Resident') {
-    if (!guardianFirstName || !guardianLastName || !guardianPhoneNumber || !guardianEmail || !guardianAddress || !guardianCity || !guardianPincode) {
-        console.log('Required fields for Non-Resident are missing.'); // Add this line
-        return res.status(400).send('Please provide all required fields for Non-Resident.');
-    }
-}
-
-
-
     // Check if a profile photo was uploaded
     if (!req.file) {
         return res.status(400).send('Please upload a profile photo.');
@@ -180,13 +100,81 @@ if (residentStatus === 'Resident') {
     // Resize and store the profile photo
     sharp(req.file.path)
         .resize(200, 200) // Adjust the dimensions as needed
-        .toFile('views/images/resized/' + req.file.filename, (err, info) => {
+        .toFile(path.join(__dirname, 'public', 'images', 'resized', req.file.filename), (err, info) => {
             if (err) {
                 console.error('Error resizing and storing the profile photo:', err);
                 return res.status(500).send('Internal Server Error');
             }
             
-            const profilePhotoURL = `views/images/resized/${req.file.filename}`;
+            console.log('Received POST request to /register-form');
+            console.log('Request body:', req.body); // Check if profilePhoto is present in req.body
+            console.log('File received:', req.file); // Check the uploaded file information
+
+            // Destructure req.body inside the route handler function
+            const {
+                firstName,
+                lastName,
+                registerNumber,
+                dob,
+                department,
+                profilePhoto,
+                residentStatus,
+                fatherFirstName,
+                fatherLastName,
+                fatherPhoneNumber,
+                fatherEmail,
+                motherFirstName,
+                motherLastName,
+                motherPhoneNumber,
+                motherEmail,
+                guardianFirstName,
+                guardianLastName,
+                guardianPhoneNumber,
+                guardianEmail,
+                guardianAddress,
+                guardianCity,
+                guardianPincode,
+                address,
+                city,
+                pincode,
+                bloodGroup,
+                collegeEmail // New field
+            } = req.body;
+
+            // Log the received form data
+            console.log('Received form data:', req.body);
+
+            // Log values of specific variables just before the conditional check
+            console.log('firstName:', firstName);
+            console.log('lastName:', lastName);
+            console.log('registerNumber:', registerNumber);
+            console.log('dob:', dob);
+            console.log('department:', department);
+            console.log('profilePhoto:', profilePhoto);
+            console.log('bloodGroup:', bloodGroup);
+            console.log('collegeEmail:', collegeEmail);
+
+            // Check if required values are present
+            if (!firstName || !lastName || !registerNumber || !dob || !department || !bloodGroup || !collegeEmail) {
+                console.log("profile photo", profilePhoto);
+                return res.status(400).send('Please provide all required fields.');
+            }
+
+            // Check residency status and required fields accordingly
+            console.log('Residency Status:', residentStatus); // Add this line
+            if (residentStatus === 'Resident') {
+                if (!fatherFirstName || !fatherLastName || !fatherPhoneNumber || !fatherEmail || !motherFirstName || !motherLastName || !motherPhoneNumber || !motherEmail || !address || !city || !pincode) {
+                    console.log('Required fields for Resident are missing.'); // Add this line
+                    return res.status(400).send('Please provide all required fields for Resident.');
+                }
+            } else if (residentStatus === 'Non-Resident') {
+                if (!guardianFirstName || !guardianLastName || !guardianPhoneNumber || !guardianEmail || !guardianAddress || !guardianCity || !guardianPincode) {
+                    console.log('Required fields for Non-Resident are missing.'); // Add this line
+                    return res.status(400).send('Please provide all required fields for Non-Resident.');
+                }
+            }
+
+            const profilePhotoURL = `/images/resized/${req.file.filename}`; // Update the profile photo URL
 
             // SQL query with placeholders
             const sqlQuery = 'INSERT INTO students (FirstName, LastName, RegisterNumber, DateOfBirth, Department, ProfilePhotoURL, FatherFirstName, FatherLastName, FatherPhoneNumber, FatherEmail, MotherFirstName, MotherLastName, MotherPhoneNumber, MotherEmail, GuardianFirstName, GuardianLastName, GuardianPhoneNumber, GuardianEmail, GuardianAddress, GuardianCity, GuardianPincode, ResidentStatus, Address, City, Pincode, BloodGroup, CollegeEmail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -219,7 +207,8 @@ if (residentStatus === 'Resident') {
             });
         });
 });
-});
+
+
 
 
 
@@ -414,16 +403,12 @@ app.get("/student-profile", (req, res) => {
             res.status(500).send("Internal server error");
             return;
         }
-        
-           // Construct profile photo URL
-            // Extract profile photo URL from the query result
+    
+        // Construct profile photo URL
         const profilePhotoURL = profileResult.length > 0 ? profileResult[0].ProfilePhotoURL : null;
-
-
-
-
+    
         console.log("Profile Photo URL:", profilePhotoURL); // Log profile photo URL
-
+    
         // Fetch other data from the MySQL database
         const query1 = "SELECT * FROM academicachievements WHERE RegisterNumber = ?";
         const query2 = "SELECT * FROM extracurricularactivities WHERE RegisterNumber = ?";
@@ -443,9 +428,9 @@ app.get("/student-profile", (req, res) => {
                             } else {
                                 console.log("Profile Photo URL before rendering:", profilePhotoURL); // Add this line
                                 // Render the EJS file with the fetched data
-                                res.render("student_profile", { 
-                                    profilePhotoURL: profilePhotoURL, // Pass profile photo URL to the template
-                                    academicData: academicData, 
+                                res.render("student_profile", {
+                                    profilePhotoURL: profilePhotoURL ,
+                                    academicData: academicData,
                                     extracurricularData: extracurricularData,
                                     sportsData: sportsData,
                                     coursesData: coursesData,
@@ -459,7 +444,6 @@ app.get("/student-profile", (req, res) => {
         });
     });
 });
-
 
 
 
