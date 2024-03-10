@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/design.css">
     <title>Academic Achievement</title>
+   
+
 </head>
 <body>
     <div id="academic-form-container" class="form-container">
-    <form action="/submit-academic-achievement" method="POST">
+    <form  id="academic-form"   action="/submit-academic-achievement" method="POST" enctype="multipart/form-data">
       
         <label for="registerNumber">Register Number:</label>
         <br>
@@ -29,18 +31,25 @@
         <br>
         <textarea id="description" name="description"></textarea><br>
         <br>
-        <label for="photoURL">Photo URL:</label><br>
-        <br>
-        <input type="text" id="photoURL" name="photoURL"><br>
-        <br>
-        <label for="certificateURL">Certificate URL:</label><br>
-        <br>
-        <input type="text" id="certificateURL" name="certificateURL" required><br>
-        <br>
-
+         <!-- File input for photo -->
+         <label for="photo">Photo:</label><br><br>
+         <br>
+         <input type="file" id="photo" name="photo" accept="image/png, image/jpeg"><br><br>
+         <br>
+         <!-- File input for certificate -->
+         <label for="certificate">Certificate:</label><br><br>
+         <br>
+         <input type="file" id="certificate" name="certificate" required accept="image/png, image/jpeg"><br><br>
+         <br>
         <button type="submit">Submit</button>
         
     </form>
     </div>
+       <!-- Placeholder for success message -->
+       <div id="success-message" class="notification hidden"></div>
+    </div>
+  
+
+
 </body>
 </html>

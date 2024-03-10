@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="extracurricular-form-container" class="form-container">
-    <form action="/submit-extracurricular-activity" method="POST">
+    <form action="/submit-extracurricular-activity" method="POST" enctype="multipart/form-data">
         <label for="registerNumber">Register Number:</label>
         <br>
         <br>
@@ -40,18 +40,17 @@
         <input type="text" id="organisers" name="organisers">
         <br>
         <br>
-        <label for="photoURL">Photo URL:</label>
+        <!-- File input for photo -->
+        <label for="photo">Photo:</label><br><br>
         <br>
+        <input type="file" id="photo" name="photo" accept="image/png, image/jpeg"><br><br>
         <br>
-        <input type="text" id="photoURL" name="photoURL">
+        <!-- File input for certificate -->
+        <label for="certificate">Certificate:</label><br><br>
         <br>
+        <input type="file" id="certificate" name="certificate" required accept="image/png, image/jpeg"><br><br>
         <br>
-        <label for="certificateURL">Certificate URL:</label>
-        <br>
-        <br>
-        <input type="text" id="certificateURL" name="certificateURL" required>
-        <br>
-        <br>
+       
         <button type="submit">Submit</button>
         
     </form>

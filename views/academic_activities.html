@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/design.css">
+    <title>Insert Academic Activities</title>
+</head>
+<body>
+    <div id="academic-activities-form-container" class="form-container">
+        <h1>Insert Academic Activities</h1>
+        <form id="academic-activities-form" action="/submit-academic-activities" method="POST" enctype="multipart/form-data">
+            <label for="registerNumber">Register Number:</label><br>
+            <input type="text" id="registerNumber" name="registerNumber" required><br><br>
+            
+            <label for="activityType">Activity Type:</label><br>
+            <select id="activityType" name="activityType" onchange="toggleOtherField()" required>
+                <option value="">Select Activity Type</option>
+                <option value="certificateCourse">Certificate Course</option>
+                <option value="workshop">Workshop</option>
+                <option value="seminar">Seminar</option>
+                <option value="conference">Conference</option>
+                <option value="other">Other</option> <!-- Add option for adding custom value -->
+            </select><br><br>
+
+            <div id="otherActivityField" style="display: none;">
+                <label for="otherActivityName">Specify Other Activity:</label><br>
+                <input type="text" id="otherActivityName" name="otherActivityName"><br><br>
+            </div>
+
+            <label for="prizesAwards">Received Prizes/Awards:</label><br>
+            <select id="prizesAwards" name="prizesAwards" onchange="togglePrizeDetails()" required>
+                <option value="">Select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br><br>
+
+            <div id="prizesDetails" style="display: none;">
+                <label for="prizesDetails">Prizes/Awards Details:</label><br>
+                <input type="text" id="prizesDetails" name="prizesDetails"><br><br>
+                <label for="photo" id="photoLabel" style="display: none;">Photo (PNG or JPG, max 1MB):</label><br>
+                <input type="file" id="photo" name="photo" accept="image/png, image/jpeg" style="display: none;"><br><br>
+
+                <label for="certificate" id="certificateLabel" style="display: none;">Certificate (JPG/JPEG/PNG):</label><br>
+                <input type="file" id="certificate" name="certificate" accept="image/jpeg, image/png" style="display: none;"><br><br>
+                
+            </div>
+
+            <label for="eventName">Event Name:</label><br>
+            <select id="eventName" name="eventName" onchange="toggleEventOtherField()" required>
+                <option value="">Select Event Name</option>
+                <option value="paperPresentation">Paper Presentation</option>
+                <option value="publication">Publication</option>
+                <option value="quiz">Quiz</option>
+                <option value="other">Other</option> <!-- Add option for adding custom value -->
+            </select><br><br>
+
+            <div id="otherEventField" style="display: none;">
+                <label for="otherEventName">Specify Other Event:</label><br>
+                <input type="text" id="otherEventName" name="otherEventName"><br><br>
+            </div>
+            
+            <!-- Newly added fields -->
+            <label for="eventDate">Event Date:</label><br>
+            <input type="date" id="eventDate" name="eventDate"><br><br>
+
+            <label for="organisers">Organisers:</label><br>
+            <input type="text" id="organisers" name="organisers"><br><br>
+
+            <label for="venue">Venue:</label><br>
+            <input type="text" id="venue" name="venue"><br><br>
+
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        function toggleOtherField() {
+            const activityType = document.getElementById('activityType').value;
+            const otherActivityField = document.getElementById('otherActivityField');
+
+            if (activityType === 'other') {
+                otherActivityField.style.display = 'block';
+            } else {
+                otherActivityField.style.display = 'none';
+            }
+        }
+
+        function togglePrizeDetails() {
+            const prizesAwards = document.getElementById('prizesAwards').value;
+            const prizesDetails = document.getElementById('prizesDetails');
+            const photoLabel = document.getElementById('photoLabel');
+            const photo = document.getElementById('photo');
+            const certificateLabel = document.getElementById('certificateLabel');
+            const certificate = document.getElementById('certificate');
+
+            if (prizesAwards === 'yes') {
+                prizesDetails.style.display = 'block';
+                photoLabel.style.display = 'block';
+                photo.style.display = 'block';
+                photo.required = true;
+                certificateLabel.style.display = 'block';
+                certificate.style.display = 'block';
+                certificate.required = true;
+            } else {
+                prizesDetails.style.display = 'none';
+                photoLabel.style.display = 'none';
+                photo.style.display = 'none';
+                photo.required = false;
+                certificateLabel.style.display = 'none';
+                certificate.style.display = 'none';
+                certificate.required = false;
+            }
+        }
+
+        function toggleEventOtherField() {
+            const eventName = document.getElementById('eventName').value;
+            const otherEventField = document.getElementById('otherEventField');
+
+            if (eventName === 'other') {
+                otherEventField.style.display = 'block';
+            } else {
+                otherEventField.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

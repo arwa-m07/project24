@@ -1,3 +1,114 @@
+/* Student registration form styles */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-image: url('Womens-Christian-College.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    background-color: rgba(34, 143, 103, 0.5);
+    border-radius: 15px;
+    overflow: hidden;
+    width: 400px;
+}
+
+.form-container {
+    background-color: rgba(188, 203, 192, 0.938);
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+}
+
+.register-form,
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    color: #5b1616;
+}
+
+input {
+    font-weight: bold;
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #6a6a09;
+    border-radius: 20px;
+}
+
+button {
+    padding: 8px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Dashboard design styles */
+.dashboard-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.dashboard-form-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+
+.dashboard-options {
+    margin-top: 20px;
+}
+
+.dashboard-options ul {
+    list-style-type: none;
+}
+
+.dashboard-options ul li {
+    margin-bottom: 10px;
+}
+
+.dashboard-options a {
+    margin-right: 10px;
+}
+
+.dashboard-form-container .form-section {
+    margin-top: 30px;
+    padding: 50px;
+    background-color: #15f358;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(158, 7, 7, 0.1);
+}
+
+/* Additional form containers */
+#acdemic-activities-form-container,
+#extracurricular-form-container,
+#sports-form-container,
+#courses-form-container ,
+#academic-form-container {
+    margin-top: 30px;
+    padding: 50px;
+    background-color: #15f358;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(158, 7, 7, 0.1);
+}
 body {
     margin: 0;
     padding: 0;

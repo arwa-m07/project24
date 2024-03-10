@@ -1,7 +1,6 @@
 {
   "name": "arwaproject",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,10 +10,15 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.3",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
+    "express-session": "^1.18.0",
+    "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
     "mysql2": "^3.9.1",
-    "node.js": "^0.0.1-security"
-  }
+    "node.js": "^0.0.1-security",
+    "sharp": "^0.33.2"
+  },
+  "description": ""
 }

@@ -1,6 +1,4 @@
-<!-- Active: 1705334032428@@127.0.0.1@3306@project -->
-<!-- login.html -->
-<!-- login.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,26 +7,123 @@
    <!-- <link rel="stylesheet" href="styles/common.css"-->
     <link rel="stylesheet" href="styles/design.css">
     <title>Student Login</title>
+    <style>
+        .notification {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            /* Adjust alignment */
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content;
+        }
+               /* Style for the navigation bar */
+               nav {
+    background-color: #333;
+    overflow: hidden;
+    position: fixed; /* Fix the navigation bar at the top */
+    width: 100%; /* Make the navigation bar span the entire width */
+    top: 0; /* Position the navigation bar at the top */
+    z-index: 1000; /* Ensure the menu bar stays on top of other content */
+}
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            z-index: 1000; /* Ensure the menu bar stays on top of other content */
+        }
+
+        nav ul li {
+            float: left;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #fbfbf7;
+        }
+    </style>
 </head>
 <body>
+     
+ <!-- Include common.ejs content using JavaScript -->
+ <div id="commonContent"></div>
+        
+    </div>
     <div class="container">
         <div class="form-container">
+           
     <form id="loginForm" action="/authenticate" method="post" class="register-form">
         
        <b> <label for="loginRegisterNumber">Register Number:</label></b>
     <br>
-        <!-- Add the "name" attribute -->
-        <input type="text" id="registerNumber" name="registerNumber" required placeholder="e.g. 21BCA07" >
+        <input type="text" id="registerNumber" name="registerNumber" required pattern="[0-9A-Za-z]+" required placeholder="e.g. 21BCA07" >
         <br>
       <b>  <label for="loginDob"> Password:</label></b>
       <br>
         <!-- Add the "name" attribute -->
-        <input type="text" id="dob" name="dob" required placeholder="yyyy-mm-dd">
+        <input type="text" id="dob" name="dob" required pattern="\d{4}-\d{2}-\d{2}" required placeholder="e.g. yyyy-mm-dd">
 <br>
         <button type="submit">Login</button>
     </form>
+     <!-- login-student.js -->
+<script>
+     // Function to fetch and inject common.ejs content
+     fetch('/common.ejs')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('commonContent').innerHTML = data;
+                })
+                .catch(error => console.error('Error fetching common.ejs:', error));
+            // Get the query parameter from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+        const registrationSuccess = urlParams.get('registrationSuccess');
 
+        // Check if registrationSuccess is true
+        if (registrationSuccess === 'true') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.textContent = 'Registration successful. You can now login.';
+
+            // Insert notification before the login form
+            const loginForm = document.getElementById('loginForm');
+            loginForm.insertAdjacentElement('beforebegin', notification);
+        }
+              // Get the query parameter from the URL
+              const urlParams1 = new URLSearchParams(window.location.search);
+        const loginFailed = urlParams1.get('loginFailed');
+
+        // Check if loginFailed is true
+        if (loginFailed === 'true') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.textContent = 'Login failed. Please try again.';
+
+            // Insert notification before the login form
+            const loginForm = document.getElementById('loginForm');
+            loginForm.insertAdjacentElement('beforebegin', notification);
+        }
+
+  
+</script>
+         
+  
     <script src="app.js"></script>
+    </div>
+    </div>
+    
 </body>
 </html>
 

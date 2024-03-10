@@ -5,13 +5,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+
   <title>Student Profile</title>
   <style>
   body {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background-color: grey;
+    background-color: rgba(251, 250, 250, 0.993);
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -57,126 +59,239 @@
     }
     .category-heading {
       font-size: 30px;
-      color: red;
+      color: rgb(12, 66, 50);
       text-align: center;
       font-weight: bold;
       margin-top: 20px;
     }
+     .profile-photo-container {
+    position: relative;
+    text-align: center;
+}
+
+.profile-photo {
+    display: inline-block;
+    width: 150px; /* Adjust the width as needed */
+    height: 150px; /* Adjust the height as needed */
+    border: 2px solid #000;
+    border-radius: 50%; /* Ensure the photo is displayed in a circular frame */
+    overflow: hidden; /* Hide overflow to prevent scaling issues */
+}
+
+.profile-photo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Ensure the image covers the entire container */
+}
+.no-data-message {
+  color: #999; /* Gray color for the message */
+  font-style: italic; /* Italic font style */
+  margin-top: 10px; /* Top margin */
+  padding: 10px; /* Padding around the message */
+  background-color: #f9f9f9; /* Light gray background color */
+  border: 1px solid #ccc; /* Border around the message */
+  text-align: center; /* Center-align the message */
+}
+
+
   </style>
 </head>
 <body>
+<!-- Display the profile photo -->
+<div class="profile-photo-container">
+    <h2>Profile Photo</h2>
+    <div class="profile-photo">
+        <img src="<%= profilePhotoURL %>" alt="Profile Photo">
+    </div>
+</div>
+
+
+  
   <center><h1>Student Profile</h1></center>
 
-  <!-- Academic Achievements -->
-  <h2 class="category-heading">Academic Achievements</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Created Form ID</th>
-        <th>Name Of Achievement</th>
-        <th>Description</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="academicTableBody">
-      <!-- Populate the table with data fetched from the MySQL database -->
-      <% academicData.forEach(function(entry) { %>
-        <tr>
-          <td><%- entry.AchievementID %></td>
-          <td><%- entry.NameOfAchievement %></td>
-          <td><%- entry.Description %></td>
-          <td>
-            <button class="button delete" onclick="deleteRecord('academic', '<%- entry.AchievementID %>')">Delete</button>
-          </td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
 
-  <!-- Extracurricular Activities -->
-  <h2 class="category-heading">Extracurricular Activities</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Activity ID</th>
-        <th>Event Name</th>
-        <th>Organisers</th>
-        <th>Actions</th>
+<!-- Academic Activities -->
+<h2 class="category-heading">Academic Activities</h2>
+<% if (academicActivitiesData.length > 0) { %>
+<table>
+  <thead>
+    <tr>
+      <th>Activity ID</th>
+      <th>Activity Type</th>
+      <th>Prizes/Awards</th>
+      <th>Event Name</th>
+      <th>Photo URL</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="academicActivitiesTableBody">
+    <% academicActivitiesData.forEach(function(entry) { %>
+      <tr id="academicActivities_<%- entry.ActivityID %>">
+        <td><%- entry.ActivityID %></td>
+        <td><%- entry.ActivityType %></td>
+        <td><%- entry.PrizesAwards %></td>
+        <td><%- entry.EventName %></td>
+        <td><%- entry.PhotoURL %></td>
+        <td>
+           
+          <!-- Delete button to delete the record -->
+          <button class="button delete" onclick="deleteRecord('academicActivities', '<%- entry.ActivityID %>')">Delete</button>
+        </td>
       </tr>
-    </thead>
-    <tbody id="extracurricularTableBody">
-      <!-- Populate the table with data fetched from the MySQL database -->
-      <% extracurricularData.forEach(function(entry) { %>
-        <tr>
-          <td><%- entry.ActivityID %></td>
-          <td><%- entry.EventName %></td>
-          <td><%- entry.Organisers %></td>
-          <td>
-            <button class="button delete" onclick="deleteRecord('extracurricular', '<%- entry.ActivityID %>')">Delete</button>
-          </td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
+    <% }); %>
+  </tbody>
+</table>
+<% } else { %>
+<div class="no-data-message">
+  <p></center>No academic activities found. Please fill the forms!</p></center>
+  </div>
+<% } %>
 
-  <!-- Sports Achievements -->
-  <h2 class="category-heading">Sports Achievements</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Sports Achievement ID</th>
-        <th>Name Of Sport</th>
-        <th>Level</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="sportsTableBody">
-      <!-- Populate the table with data fetched from the MySQL database -->
-      <% sportsData.forEach(function(entry) { %>
-        <tr>
-          <td><%- entry.SportsAchievementID %></td>
-          <td><%- entry.NameOfSport %></td>
-          <td><%- entry.Level %></td>
-          <td>
-            <button class="button delete" onclick="deleteRecord('sports', '<%- entry.SportsAchievementID %>')">Delete</button>
-          </td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
 
-  <!-- Courses -->
-  <h2 class="category-heading">Courses</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Course ID</th>
-        <th>Course Name</th>
-        <th>Course Type</th>
-        <th>Actions</th>
+
+<!-- Academic Achievements -->
+<h2 class="category-heading">Academic Achievements</h2>
+<% if (academicData.length > 0) { %>
+<table>
+  <thead>
+    <tr>
+      <th>Created Form ID</th>
+      <th>Name Of Achievement</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="academicTableBody">
+    <!-- Populate the table with data fetched from the MySQL database -->
+    <% academicData.forEach(function(entry) { %>
+      <tr id="academic_<%- entry.AchievementID %>">
+        <td><%- entry.AchievementID %></td>
+        <td><%- entry.NameOfAchievement %></td>
+        <td><%- entry.Description %></td>
+        <td>
+          <button class="button delete" onclick="deleteRecord('academic', '<%- entry.AchievementID %>')">Delete</button>
+        </td>
       </tr>
-    </thead>
-    <tbody id="coursesTableBody">
-      <!-- Populate the table with data fetched from the MySQL database -->
-      <% coursesData.forEach(function(entry) { %>
-        <tr>
-          <td><%- entry.CourseID %></td>
-          <td><%- entry.CourseName %></td>
-          <td><%- entry.CourseType %></td>
-          <td>
-            <button class="button delete" onclick="deleteRecord('courses', '<%- entry.CourseID %>')">Delete</button>
-          </td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
+    <% }); %>
+  </tbody>
+</table>
+<% } else { %>
+<div class="no-data-message">
+  <p></center>No academic achievements found. Please fill the forms!</p></center>
+  </div>
+<% } %>
+
+
+
+<!-- Extracurricular Activities -->
+<h2 class="category-heading">Extracurricular Activities</h2>
+<% if (extracurricularData.length > 0) { %>
+<table>
+  <thead>
+    <tr>
+      <th>Activity ID</th>
+      <th>Event Name</th>
+      <th>Organisers</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="extracurricularTableBody">
+    <!-- Populate the table with data fetched from the MySQL database -->
+    <% extracurricularData.forEach(function(entry) { %>
+      <tr id="extracurricular_<%- entry.ActivityID %>">
+        <td><%- entry.ActivityID %></td>
+        <td><%- entry.EventName %></td>
+        <td><%- entry.Organisers %></td>
+        <td>
+          <button class="button delete" onclick="deleteRecord('extracurricular', '<%- entry.ActivityID %>')">Delete</button>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+<% } else { %>
+<div class="no-data-message">
+  <p><center>No extracurricular activities found. Please fill the forms!</p></center>
+  </div>
+<% } %>
+
+
+<!-- Sports Achievements -->
+<h2 class="category-heading">Sports Achievements</h2>
+<% if (sportsData.length > 0) { %>
+<table>
+  <thead>
+    <tr>
+      <th>Sports Achievement ID</th>
+      <th>Name Of Sport</th>
+      <th>Level</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="sportsTableBody">
+    <!-- Populate the table with data fetched from the MySQL database -->
+    <% sportsData.forEach(function(entry) { %>
+      <tr id="sports_<%- entry.SportsAchievementID %>">
+        <td><%- entry.SportsAchievementID %></td>
+        <td><%- entry.NameOfSport %></td>
+        <td><%- entry.Level %></td>
+        <td>
+          <button class="button delete" onclick="deleteRecord('sports', '<%- entry.SportsAchievementID %>')">Delete</button>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+<% } else { %>
+<div class="no-data-message">
+  <p><center>No sports achievements found. Please fill the forms!</p></center>
+  </div>
+<% } %>
+
+
+<!-- Courses -->
+<h2 class="category-heading">Courses</h2>
+<% if (coursesData.length > 0) { %>
+<table>
+  <thead>
+    <tr>
+      <th>Course ID</th>
+      <th>Course Name</th>
+      <th>Course Type</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="coursesTableBody">
+    <!-- Populate the table with data fetched from the MySQL database -->
+    <% coursesData.forEach(function(entry) { %>
+      <tr id="courses_<%- entry.CourseID %>">
+        <td><%- entry.CourseID %></td>
+        <td><%- entry.CourseName %></td>
+        <td><%- entry.CourseType %></td>
+        <td>
+          <button class="button delete" onclick="deleteRecord('courses', '<%- entry.CourseID %>')">Delete</button>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+<% } else { %>
+<div class="no-data-message">
+  <p><center>No course details found. Please fill the forms!</p></center>
+  </div>
+<% } %>
+
+
+
+ 
 
   <!-- Common "Fill New Form" button -->
   <button class="button fill" onclick="fillNewForm()">Fill New Form</button>
  
+
  
  
- <script>
+<script>
   // Implement the fill new form button to redirect the user to the dashboard page when clicked
   function fillNewForm() {
     window.location.href = "/dashboard";
@@ -200,8 +315,9 @@
       xhr.onload = function () {
         if (xhr.status === 200) {
           alert("Record deleted successfully");
-          // Reload the page to update the table
-          location.reload();
+          // Remove the deleted row from the table
+          var deletedRow = document.getElementById(`${recordType}_${recordId}`);
+          deletedRow.parentNode.removeChild(deletedRow);
         } else {
           alert("Failed to delete the record");
         }
@@ -209,7 +325,9 @@
 
       // Pass the record ID with the correct key
       var data = {};
-      if (recordType === "academic") {
+      if (recordType === "academicActivities") {
+        data.ActivityID = recordId;
+      } else if (recordType === "academic") {
         data.AchievementID = recordId;
       } else if (recordType === "extracurricular") {
         data.ActivityID = recordId;
@@ -218,20 +336,20 @@
       } else if (recordType === "courses") {
         data.CourseID = recordId;
       }
-       // Log the data being sent
-    console.log("Data to be sent:", data);
+      
+      // Log the data being sent
+      console.log("Data to be sent:", data);
       xhr.send(JSON.stringify(data));
     } else {
       // Handle the case where the user clicks "Cancel"
       console.log("Deletion canceled");
     }
   }
+  
+ 
+
 </script>
 
 
-
-
-
-  
 </body>
 </html>

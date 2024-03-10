@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="courses-form-container" class="form-container">
-    <form action="/submit-course" method="POST">
+    <form action="/submit-course" method="POST" enctype="multipart/form-data">
         <label for="registerNumber">Register Number:</label>
         <br>
         <input type="text" id="registerNumber" name="registerNumber" required>
@@ -50,11 +50,13 @@
         <input type="date" id="endDate" name="endDate">
         <br>
         <br>
-        <label for="certificateURL">Certificate URL:</label>
+        
+        <!-- File input for certificate -->
+        <label for="certificate">Certificate:</label><br><br>
         <br>
-        <input type="text" id="certificateURL" name="certificateURL" required>
+        <input type="file" id="certificate" name="certificate" required accept="image/png, image/jpeg"><br><br>
         <br>
-        <br>
+       
         <button type="submit">Submit</button>
     </form>
     </div>

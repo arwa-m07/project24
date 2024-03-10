@@ -1,37 +1,267 @@
-<!-- Update the registration form to include profile photo -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <!-- <link rel="stylesheet" href="styles/common.css"-->
-    <link rel="stylesheet" href="styles/design.css">
+    <title>Student Registration</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Bootstrap default background color */
+        }
 
+        .card {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
     <div class="container">
-        <div class="form-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="registrationForm" action="/register-form" method="post" enctype="multipart/form-data">
+                            <h2 class="text-center mb-4">Student Registration</h2>
+                            <!-- Basic student information -->
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">First Name:</label>
+                                <input type="text" id="firstName" name="firstName" class="form-control" required pattern="[A-Za-z]+" placeholder="e.g. Ankita">
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">Last Name:</label>
+                                <input type="text" id="lastName" name="lastName" class="form-control" required pattern="[A-Za-z]+" placeholder="e.g. Roy">
+                            </div>
+                            <div class="mb-3">
+                                <label for="registerNumber" class="form-label">Register Number:</label>
+                                <input type="text" id="registerNumber" name="registerNumber" class="form-control" required pattern="[0-9A-Za-z]+" placeholder="e.g. 21CEM02">
+                            </div>
+                            <div class="mb-3">
+                                <label for="dob" class="form-label">Date of Birth:</label>
+                                <input type="text" id="dob" name="dob" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" placeholder="Enter in the format of: yyyy-mm-dd">
+                            </div>
+                            <div class="mb-3">
+                                <label for="department" class="form-label">Department:</label>
+                                <input type="text" id="department" name="department" class="form-control" required pattern="[A-Za-z\s]+" placeholder="e.g. Visual Communication">
+                            </div>
+                            <!-- Profile Photo -->
+                            <div class="mb-3">
+                                <label for="profilePhotoInput" class="form-label">Profile Photo:</label>
+                                <input type="file" id="profilePhotoInput" name="profilePhoto" class="form-control" accept="image/*" required onchange="previewPhoto(event)">
+                                <img id="profilePhotoPreview" src="#" alt="Preview" style="display: none; width: 100px; height: 100px;">
+                                <p id="photoError" class="text-danger"></p> <!-- Placeholder for error message -->
+                            </div>
+                            <!-- Resident/Non-Resident section -->
+                            <div class="mb-3">
+                                <label for="residentRadio" class="form-label">Residency Status:</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="residentStatus" id="residentRadio" value="Resident" required onclick="showResidentSection()">
+                                    <label class="form-check-label" for="residentRadio">Resident</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="residentStatus" id="nonResidentRadio" value="Non-Resident" required onclick="showNonResidentSection()">
+                                    <label class="form-check-label" for="nonResidentRadio">Non-Resident</label>
+                                </div>
+                            </div>
+                            <!-- Address Section -->
+                            <div id="addressSection" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Address:</label>
+                                    <input type="text" id="address" name="address" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="city" class="form-label">City:</label>
+                                    <input type="text" id="city" name="city" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pincode" class="form-label">Pincode:</label>
+                                    <input type="text" id="pincode" name="pincode" class="form-control" required>
+                                </div>
+                            </div>
+                            <!-- Father details -->
+                            <div id="fatherDetails" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="fatherFirstName" class="form-label">Father's First Name:</label>
+                                    <input type="text" id="fatherFirstName" name="fatherFirstName" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fatherLastName" class="form-label">Father's Last Name:</label>
+                                    <input type="text" id="fatherLastName" name="fatherLastName" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fatherPhoneNumber" class="form-label">Father's Phone Number:</label>
+                                    <input type="text" id="fatherPhoneNumber" name="fatherPhoneNumber" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fatherEmail" class="form-label">Father's Email:</label>
+                                    <input type="email" id="fatherEmail" name="fatherEmail" class="form-control">
+                                </div>
+                            </div>
+                            <!-- Mother details -->
+                            <div id="motherDetails" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="motherFirstName" class="form-label">Mother's First Name:</label>
+                                    <input type="text" id="motherFirstName" name="motherFirstName" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="motherLastName" class="form-label">Mother's Last Name:</label>
+                                    <input type="text" id="motherLastName" name="motherLastName" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="motherPhoneNumber" class="form-label">Mother's Phone Number:</label>
+                                    <input type="text" id="motherPhoneNumber" name="motherPhoneNumber" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="motherEmail" class="form-label">Mother's Email:</label>
+                                    <input type="email" id="motherEmail" name="motherEmail" class="form-control">
+                                </div>
+                            </div>
+                            <!-- Guardian details -->
+                            <div id="guardianDetails" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="guardianFirstName" class="form-label">Guardian's First Name:</label>
+                                    <input type="text" id="guardianFirstName" name="guardianFirstName" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="guardianLastName" class="form-label">Guardian's Last Name:</label>
+                                    <input type="text" id="guardianLastName" name="guardianLastName" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="guardianPhoneNumber" class="form-label">Guardian's Phone Number:</label>
+                                    <input type="text" id="guardianPhoneNumber" name="guardianPhoneNumber" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="guardianEmail" class="form-label">Guardian's Email:</label>
+                                    <input type="email" id="guardianEmail" name="guardianEmail" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="guardianAddress" class="form-label">Guardian's Address:</label>
+                                    <input type="text" id="guardianAddress" name="guardianAddress" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="guardianCity" class="form-label">Guardian's City:</label>
+                                    <input type="text" id="guardianCity" name="guardianCity" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="guardianPincode" class="form-label">Guardian's Pincode:</label>
+                                    <input type="text" id="guardianPincode" name="guardianPincode" class="form-control">
+                                </div>
+                            </div>
+                            <!-- Blood group -->
+                            <div class="mb-3">
+                                <label for="bloodGroup" class="form-label">Blood Group:</label>
+                                <select id="bloodGroup" name="bloodGroup" class="form-select" required>
+                                    <option value="">Select Blood Group</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                            <!-- College Email ID -->
+                            <div class="mb-3">
+                                <label for="collegeEmail" class="form-label">College Email ID:</label>
+                                <input type="email" id="collegeEmail" name="collegeEmail" class="form-control" required>
+                            </div>
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<form action="/register-form" method="post" enctype="application/x-www-form-urlencoded" class="login-form">
-  <br><br> <br><b> <label for="firstName">First Name:</label></b>
-    <input type="text" id="firstName" name="firstName" required placeholder="e.g. Ankita"><br>
-  <br>
-   <b> <label for="lastName">Last Name:</label></b>
-    <input type="text" id="lastName" name="lastName" required placeholder="e.g.; Roy"><br>
-  <br>
-   <b> <label for="registerNumber">Register Number:</label></b>
-    <input type="text" id="registerNumber" name="registerNumber" required placeholder="e.g.; 21CEM02"><br>
-    <br>
-   <b> <label for="dob">Date of Birth:</label></b>
-    <input type="password" id="dob" name="dob" required placeholder="Enter in the format of : yyyy-mm-dd"><br>
-    <br>
-   <b><label for="department">Department:</label></b>
-    <input type="text" id="department" name="department" required placeholder="e.g.; Visual Communication"><br>
-    <br>
-  <b><label for="profilePhoto">Profile Photo:</label></b>
-    <input type="file" id="profilePhoto" name="profilePhoto" accept="image/*" required ><br>
-    <br>
-  <b> <button type="submit">Register</button></b>
-  </form>
- <script src = "app.js"></script>
+    <!-- Include Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Include your custom JavaScript or inline scripts -->
+    <script>
+        // Function to preview uploaded profile photo
+        function previewPhoto(event) {
+            console.log('Entering previewPhoto function...');
+            const preview = document.getElementById('profilePhotoPreview');
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            const errorMessage = document.getElementById('photoError');
 
+            // Clear any previous error message
+            errorMessage.textContent = '';
 
-  
-  
+            // Check if file is selected
+            if (file) {
+        console.log("File selected:", file.name);
+                // Check file type
+                if (!file.type.match(/^image\/(png|jpeg)$/i)) {
+                    errorMessage.textContent = 'Only PNG, JPEG, and JPG files are allowed!';
+                    return;
+                }
+
+                // Check file size
+                if (file.size > 1024 * 1024) {
+                    errorMessage.textContent = 'File size should be less than 1MB!';
+                    return;
+                }
+
+                // Read and preview the selected file
+                reader.onload = function() {
+                    preview.src = reader.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // If no file is selected, hide the preview
+                console.log("No file selected.");
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
+        }
+
+       // Function to show address fields for Resident
+function showResidentSection() {
+    console.log('Entering showResidentSection function...');
+    document.getElementById('addressSection').style.display = 'block';
+    document.getElementById('fatherDetails').style.display = 'block';
+    document.getElementById('motherDetails').style.display = 'block';
+    document.getElementById('guardianDetails').style.display = 'none';
+
+    // Remove the 'required' attribute from non-resident fields
+    document.getElementById('guardianFirstName').removeAttribute('required');
+    document.getElementById('guardianLastName').removeAttribute('required');
+    document.getElementById('guardianPhoneNumber').removeAttribute('required');
+    document.getElementById('guardianEmail').removeAttribute('required');
+    document.getElementById('guardianAddress').removeAttribute('required');
+    document.getElementById('guardianCity').removeAttribute('required');
+    document.getElementById('guardianPincode').removeAttribute('required');
+}
+
+// Function to show guardian details for Non-Resident
+function showNonResidentSection() {
+    console.log('Entering showNonResidentSection function...');
+    document.getElementById('addressSection').style.display = 'none';
+    document.getElementById('fatherDetails').style.display = 'none';
+    document.getElementById('motherDetails').style.display = 'none';
+    document.getElementById('guardianDetails').style.display = 'block';
+      // Remove the 'required' attribute from address, city, and pincode fields
+      document.getElementById('address').removeAttribute('required');
+    document.getElementById('city').removeAttribute('required');
+    document.getElementById('pincode').removeAttribute('required');
+    console.log("Non-resident section displayed.");
+
+    // Add the 'required' attribute to non-resident fields
+    document.getElementById('guardianFirstName').setAttribute('required', '');
+    document.getElementById('guardianLastName').setAttribute('required', '');
+    document.getElementById('guardianPhoneNumber').setAttribute('required', '');
+    document.getElementById('guardianEmail').setAttribute('required', '');
+    document.getElementById('guardianAddress').setAttribute('required', '');
+    document.getElementById('guardianCity').setAttribute('required', '');
+    document.getElementById('guardianPincode').setAttribute('required', '');
+}
+
+    </script>
+</body>
+</html>
