@@ -13,6 +13,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
+// Middleware to parse JSON request bodies
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(session({
     secret: 'your_secret_key', // Change this to your actual secret key
@@ -59,6 +61,78 @@ app.get('/register-student', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'register-student.html'));
 });
 
+// Route for admin login form
+app.get('/admin-login', (req, res) => {
+    res.sendFile(__dirname + '/admin-login.html');
+});
+// Serve the admin interface HTML file
+app.get('/admin-interface', (req, res) => {
+    res.sendFile(__dirname + '/admin-interface.html');
+});
+
+
+
+// Route to handle admin login
+app.post('/admin-login', (req, res) => {
+    const { username, password } = req.body;
+    console.log('Received credentials:', { username, password }); // Log received credentials
+    // Check admin credentials in the database
+    connection.query(
+        'SELECT * FROM admin WHERE username = ? AND password = ?',
+        [username, password],
+        (err, results) => {
+            if (err) {
+                console.error('Error querying database:', err);
+                res.status(500).send('Internal Server Error');
+            } else {
+                if (results.length > 0) {
+                    // Admin authenticated, redirect to admin interface
+                    res.redirect('/admin-interface');
+                } else {
+                    // Invalid credentials, redirect back to login page
+                    res.redirect('/admin-login');
+                }
+            }
+        }
+    );
+});
+
+
+// Route to fetch records based on category
+app.get('/fetch-records', (req, res) => {
+    const category = req.query.category;
+
+    let sql = '';
+
+    switch (category) {
+        case 'academic_activities':
+            sql = `SELECT students.RegisterNumber, students.FirstName, students.LastName, academic_activities.ActivityType AS NameOfAchievement FROM students INNER JOIN academic_activities ON students.RegisterNumber = academic_activities.RegisterNumber`;
+            break;
+        case 'academicachievements':
+            sql = `SELECT students.RegisterNumber, students.FirstName, students.LastName, academicachievements.NameOfAchievement FROM students INNER JOIN academicachievements ON students.RegisterNumber = academicachievements.RegisterNumber`;
+            break;
+        case 'extracurricularactivities':
+            sql = `SELECT students.RegisterNumber, students.FirstName, students.LastName, extracurricularactivities.EventName AS NameOfAchievement FROM students INNER JOIN extracurricularactivities ON students.RegisterNumber = extracurricularactivities.RegisterNumber`;
+            break;
+        case 'sportsachievements':
+            sql = `SELECT students.RegisterNumber, students.FirstName, students.LastName, sportsachievements.NameOfSport AS NameOfAchievement FROM students INNER JOIN sportsachievements ON students.RegisterNumber = sportsachievements.RegisterNumber`;
+            break;
+        case 'courses':
+            sql = `SELECT students.RegisterNumber, students.FirstName, students.LastName, courses.CourseName AS NameOfAchievement FROM students INNER JOIN courses ON students.RegisterNumber = courses.RegisterNumber`;
+            break;
+        default:
+            return res.status(400).json({ error: 'Invalid category' });
+    }
+
+    // Fetch records from the database
+    connection.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching records:', err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        res.json(results);
+    });
+});
 
 
 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Admin Interface</title>
+</head>
+<body>
+
+  <div class="container mt-5">
+    <h2>Admin Interface</h2>
+    <form id="categoryForm">
+      <div class="form-group">
+       
+        <select class="form-control" id="categorySelect" name="category">
+          <option value="" disabled selected>Select category</option>
+          <option value="academic_activities">Academic Activities</option>
+          <option value="academicachievements">Academic Achievements</option>
+          <option value="extracurricularactivities">Extracurricular Activities</option>
+          <option value="sportsachievements">Sports Achievements</option>
+          <option value="courses">Courses</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Fetch Records</button>
+    </form>
+  </div>
+
+  <div class="container mt-5" id="recordsContainer">
+    <!-- Records will be displayed here -->
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Custom JavaScript -->
+  <script>
+    // Handle form submission
+    document.getElementById('categoryForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+      
+      const category = document.getElementById('categorySelect').value;
+      
+      // Fetch records based on selected category
+      fetch(`/fetch-records?category=${category}`)
+        .then(response => response.json())
+        .then(data => {
+          // Clear previous records
+          document.getElementById('recordsContainer').innerHTML = '';
+
+          // Display new records
+          data.forEach(record => {
+            const recordElement = document.createElement('div');
+            recordElement.innerHTML = `
+              <p><strong>Register Number:</strong> ${record.RegisterNumber}</p>
+              <p><strong>Name:</strong> ${record.FirstName} ${record.LastName}</p>
+              <p><strong>Name of Achievement:</strong> ${record.NameOfAchievement}</p>
+              <!-- Add more fields as needed -->
+              <hr>
+            `;
+            document.getElementById('recordsContainer').appendChild(recordElement);
+          });
+        })
+        .catch(error => console.error('Error fetching records:', error));
+    });
+  </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,12 +13,23 @@
   <nav>
     <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/login-student">Login</a></li>
-        <li><a href="/register-student">Register</a></li>
+        <li class="dropdown"> <!-- Add 'dropdown' class to the list item -->
+            <a href="#" class="dropbtn">Student</a> <!-- Add 'dropbtn' class to the anchor tag -->
+            <div class="dropdown-content"> <!-- Add dropdown content -->
+                <a href="/login-student">Login</a>
+                <a href="/register-student">Register</a>
+            </div>
+        </li>
+        <li class="dropdown"> <!-- Add 'dropdown' class to the list item -->
+            <a href="#" class="dropbtn">Admin</a> <!-- Add 'dropbtn' class to the anchor tag -->
+            <div class="dropdown-content"> <!-- Add dropdown content -->
+                <a href="/admin-login">Login</a>
+                <!-- Add more admin-related links here if needed -->
+            </div>
+        </li>
         <!-- Add more menu items if needed -->
     </ul>
 </nav>
-
        
 
  
@@ -28,4 +40,3 @@
 
 </body>
 </html>
-
